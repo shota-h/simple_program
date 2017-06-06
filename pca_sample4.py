@@ -9,7 +9,7 @@ import sys
 
 file_ex='.PGM'
 file_ex1='.tif'
-file_ex2='.png'
+
 class_num=10
 train_num=200
 img_pix=28
