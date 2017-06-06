@@ -57,10 +57,11 @@ def func_pca(img_row,n_com):
     m_img=np.mean(img_row,axis=1)
     z=img_row.T-m_img
     cv = np.cov(z.T,bias=1)
+    print('cv shape:',cv.shape)
     w, v = np.linalg.eig(cv)
     img_pca=[]
-    buff_img=img_row.T.dot(abs(v[:,0:n_com]))
-    img_pca=np.array(buff_img)
+    buff_img=img_row.T.dot(v[:,0:n_com])
+    img_pca=np.array(abs(buff_img))
     # img_pca=img_pca.transpose((1,0))
     # print(img_pca.shape)
     temp_pca=[]
@@ -84,7 +85,7 @@ def knn(train_pca,train_class,n_com,flag_pca):
     print('test_row',test_row.shape)
     for i,j in itertools.product(range(class_num),range(test_num)):
         # norm_train=np.linalg.norm(temp_pca-train_pca[i*train_num+j,:],axis=1)
-        norm_train=np.linalg.norm(train_pca-test_row.T[:,i*test_num+j],axis=1)
+        norm_train=np.linalg.norm(train_pca-test_row[:,i*test_num+j],axis=1)
         # print(norm_train.shape)
         min_n=np.argmin(norm_train)
         # print(min_n)
@@ -95,7 +96,7 @@ def knn(train_pca,train_class,n_com,flag_pca):
 
 if __name__=='__main__':
     n_com=784
-    flag_pca=0
+    flag_pca=1
     train_row,train_class=Load_train()
     # print('train',train_row.shape)
     # print(img_row)
